@@ -158,28 +158,46 @@
         max-width: 100%;
       }
     }
+
+.lang-switch {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-family: 'Inter', sans-serif;
+}
+
+.lang-switch button {
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  margin-left: 8px;
+  cursor: pointer;
+  color: #777;
+}
+
+.lang-switch button.active {
+  font-weight: 600;
+  color: #000;
+}
+
+
+    
   </style>
 </head>
   
 <body>
 
-  <h1>Abécédaire de l’astro-musique</h1>
+<div class="lang-switch">
+  <button id="btn-fr" class="active">FR</button>
+  <button id="btn-en">EN</button>
+</div>
 
-<p class="intro">
-  Pensez-vous qu’il existe des liens entre la musique et l’astronomie ?
-  La réponse est oui ! Ces deux disciplines partagent un langage commun — découvrons-le ensemble.
-  <br><br>
-  Cet abécédaire a été créé dans le cadre des 
-  <a href="https://www.waterbabiesproduction.com/les4saisonsdelunivers" target="_blank">
-    4 Saisons de l’Univers
-  </a>,
-  une série de quatre conférences-concerts mêlant récit scientifique accessible, humour et poésie,
-  images en haute définition et musique live.
-</p>
+  //<h1>Abécédaire de l’astro-musique</h1>
+  <h1 id="title"></h1>
 
-  <p class="hint">
-    Cliquez sur une lettre pour explorer les liens entre musique et astronomie
-  </p>
+  <p class="intro" id="intro"></p>
+
+  <p class="hint" id="hint"></p>
 
   <div class="alphabet" id="alphabet"></div>
 
@@ -195,43 +213,117 @@
 
 
   <script>
-    const data = {
-      A: { img: "images/A_v2.png", word: "Armstrong", text: "Neil Armstrong, premier homme à marcher sur la Lune, et Louis Armstrong, trompettiste de jazz." },
-      B: { img: "images/B_v2.png", word: "Big Band.g", text: "Un orchestre de jazz, mais aussi l’origine de l’Univers — on n’est pas à une lettre près. Dans les deux cas, ça déborde d’énergie !" },
-      C: { img: "images/C_v2.png", word: "Composition", text: "La composition chimique d’une étoile ou d’une planète, et la composition musicale." },
-      D: { img: "images/D_v2.png", word: "Disque", text: "Le disque que l’on écoute, et celui qui gravite autour des astres — comme les anneaux de Saturne." },
-      E: { img: "images/E_v2.png", word: "Espace", text: "Il y en a entre les astres… et il en faut entre les notes !" },
-      F: { img: "images/F_v2.png", word: "Fréquence", text: "La lumière et le son sont des ondes, toutes deux caractérisées par une fréquence." },
-      G: { img: "images/G_v2.png", word: "Gustav Holst", text: "Au début du XXᵉ siècle, il a composé une œuvre pour grand orchestre : Les Planètes." },
-      H: { img: "images/H_v2.png", word: "Hertz", text: "Une unité de mesure qui définit les fréquences, qu’elles soient sonores ou lumineuses." },
-      I: { img: "images/I_v2.png", word: "Instrument", text: "Instrument de musique ou instrument de mesure." },
-      J: { img: "images/J_v2.png", word: "John Lennon", text: "John Lennon? C'est un cratère sur Mercure, nommé officiellement en 2013 par l’Union astronomique internationale." },
-      K: { img: "images/K_v2.png", word: "Kepler", text: "Astronome (et astro-musicien ?) allemand du XVIIᵉ siècle. Il a écrit un livre dans lequel il attribue aux planètes un thème musical." },
-      L: { img: "images/L_v2.png", word: "Lyre", text: "La nébuleuse de la Lyre est une étoile en fin de vie qui expulse son enveloppe dans l’espace. La Lyre est aussi un instrument de musique." },
-      M: { img: "images/M_v2.png", word: "May, Brian", text: "Non seulement il est l'emblématique guitariste du groupe Queen, mais il a également rédigé une thèse en astrophysique : Étude des vitesses radiales dans le nuage de poussière zodiacal (traduction française)." },
-      N: { img: "images/N_v2.png", word: "Nocturne", text: "Les Nocturnes de Chopin : 21 morceaux pour piano seul. L’astronomie, elle, se pratique préférentiellement la nuit !" },
-      O: { img: "images/O_v2.png", word: "Onde", text: "Le son et la lumière sont des… ondes !" },
-      P: { img: "images/P_v2.png", word: "Pythagore", text: "Un pionnier de l’astro-musique ! L’harmonie des sphères, c’est lui. Selon cette théorie, les distances entre les planètes correspondraient à des intervalles musicaux." },
-      Q: { img: "images/Q_v2.png", word: "Quintette", text: "Le « quintette de Stephan » est un regroupement de cinq galaxies découvert par l’astronome français Édouard Stephan à la fin du XIXᵉ siècle. Un quintette, c’est aussi un ensemble de cinq musiciens." },
-      R: { img: "images/R_v2.png", word: "Rave", text: "Une rave party ? Oui ! Mais RAVE signifie aussi RAdial Velocity Experiment, un programme qui observe les étoiles de notre galaxie." },
-      S: { img: "images/S_v2.png", word: "Silence", text: "Le silence spatial, la pause musicale." },
-      T: { img: "images/T_v2.png", word: "Triangle", text: "L’instrument de musique, et aussi le Triangle d’été, formé par trois étoiles : Véga, Deneb et Altaïr." },
-      U: { 
-        img: "images/U_v2.png", 
-        word: "UT", 
-        text: "<p>Pour lire la musique, on utilise des clés : la clé de Sol, la clé de Fa… et aussi la clé d’UT.</p><p>U.T., c’est également <em>Universal Time</em>, le temps universel, déterminé par des observations astronomiques.</p>" 
-        },
-      V: { img: "images/V_v2.png", word: "Variation", text: "On pense à la variation d’un thème musical, mais aussi aux étoiles variables, comme par exemple le couple T Coronae Borealis qui s'illumine de manière spectaculaire tous les 80 ans." },
-      W: { img: "images/W_v2.png", word: "Watt", text: "La puissance d’une enceinte se mesure en watts (énergie acoustique). On mesure aussi la puissance rayonnée par une étoile en watts (luminosité)." },
-      X: { img: "images/X_v2.png", word: "X-ray blues", text: "C’est le titre d'un blues de Ray Charles… et les rayons X, ce sont des ondes très énergétiques produites par certains astres." },
-      Y: { img: "images/Y_v2.png", word: "Young", text: "Il y a Neil Young, le musicien. Il y a aussi Thomas Young, le physicien, qui a prouvé grâce à une expérience que la lumière était une onde, au même titre que le son." },
-      Z: { 
-        img: "images/Z_v2.png", 
-        word: "Zéphyr", 
-        //text: "Le Trio à cordes Zéphyr, qui joue dans <a href='https://www.waterbabiesproduction.com/les4saisonsdelunivers' target='_blank'>les 4 saisons de l’Univers</a>, partage son nom avec un astéroïde de 2 km, considéré comme potentiellement dangereux pour la Terre." 
-        text: "Le Trio à cordes Zéphyr, qui joue dans les 4 saisons de l’Univers, partage son nom avec un astéroïde de 2 km, considéré comme potentiellement dangereux pour la Terre." 
-      }
+    const contentFR = {
+      title: "Abécédaire de l’astro-musique",
+      intro: `
+        Pensez-vous qu’il existe des liens entre la musique et l’astronomie ?
+        La réponse est oui ! Ces deux disciplines partagent un langage commun — découvrons-le ensemble.
+        <br><br>
+        Cet abécédaire a été créé dans le cadre des 
+          <a href="https://www.waterbabiesproduction.com/les4saisonsdelunivers" target="_blank">
+        4 Saisons de l’Univers
+        </a>.
+        une série de quatre conférences-concerts mêlant récit scientifique accessible, humour et poésie,
+        images en haute définition et musique live.
+        `,
+        hint: "Cliquez sur une lettre pour explorer les liens entre musique et astronomie",
+        letters: {
+          A: { img: "images/A_v2.png", word: "Armstrong", text: "Neil Armstrong, premier homme à marcher sur la Lune, et Louis Armstrong, trompettiste de jazz." },
+          B: { img: "images/B_v2.png", word: "Big Band.g", text: "Un orchestre de jazz, mais aussi l’origine de l’Univers — on n’est pas à une lettre près. Dans les deux cas, ça déborde d’énergie !" },
+          C: { img: "images/C_v2.png", word: "Composition", text: "La composition chimique d’une étoile ou d’une planète, et la composition musicale." },
+          D: { img: "images/D_v2.png", word: "Disque", text: "Le disque que l’on écoute, et celui qui gravite autour des astres — comme les anneaux de Saturne." },
+          E: { img: "images/E_v2.png", word: "Espace", text: "Il y en a entre les astres… et il en faut entre les notes !" },
+          F: { img: "images/F_v2.png", word: "Fréquence", text: "La lumière et le son sont des ondes, toutes deux caractérisées par une fréquence." },
+          G: { img: "images/G_v2.png", word: "Gustav Holst", text: "Au début du XXᵉ siècle, il a composé une œuvre pour grand orchestre : Les Planètes." },
+          H: { img: "images/H_v2.png", word: "Hertz", text: "Une unité de mesure qui définit les fréquences, qu’elles soient sonores ou lumineuses." },
+          I: { img: "images/I_v2.png", word: "Instrument", text: "Instrument de musique ou instrument de mesure." },
+          J: { img: "images/J_v2.png", word: "John Lennon", text: "John Lennon? C'est un cratère sur Mercure, nommé officiellement en 2013 par l’Union astronomique internationale." },
+          K: { img: "images/K_v2.png", word: "Kepler", text: "Astronome (et astro-musicien ?) allemand du XVIIᵉ siècle. Il a écrit un livre dans lequel il attribue aux planètes un thème musical." },
+          L: { img: "images/L_v2.png", word: "Lyre", text: "La nébuleuse de la Lyre est une étoile en fin de vie qui expulse son enveloppe dans l’espace. La Lyre est aussi un instrument de musique." },
+          M: { img: "images/M_v2.png", word: "May, Brian", text: "Non seulement il est l'emblématique guitariste du groupe Queen, mais il a également rédigé une thèse en astrophysique : Étude des vitesses radiales dans le nuage de poussière zodiacal (traduction française)." },
+          N: { img: "images/N_v2.png", word: "Nocturne", text: "Les Nocturnes de Chopin : 21 morceaux pour piano seul. L’astronomie, elle, se pratique préférentiellement la nuit !" },
+          O: { img: "images/O_v2.png", word: "Onde", text: "Le son et la lumière sont des… ondes !" },
+          P: { img: "images/P_v2.png", word: "Pythagore", text: "Un pionnier de l’astro-musique ! L’harmonie des sphères, c’est lui. Selon cette théorie, les distances entre les planètes correspondraient à des intervalles musicaux." },
+          Q: { img: "images/Q_v2.png", word: "Quintette", text: "Le « quintette de Stephan » est un regroupement de cinq galaxies découvert par l’astronome français Édouard Stephan à la fin du XIXᵉ siècle. Un quintette, c’est aussi un ensemble de cinq musiciens." },
+          R: { img: "images/R_v2.png", word: "Rave", text: "Une rave party ? Oui ! Mais RAVE signifie aussi RAdial Velocity Experiment, un programme qui observe les étoiles de notre galaxie." },
+          S: { img: "images/S_v2.png", word: "Silence", text: "Le silence spatial, la pause musicale." },
+          T: { img: "images/T_v2.png", word: "Triangle", text: "L’instrument de musique, et aussi le Triangle d’été, formé par trois étoiles : Véga, Deneb et Altaïr." },
+          U: { 
+            img: "images/U_v2.png", 
+            word: "UT", 
+            text: "<p>Pour lire la musique, on utilise des clés : la clé de Sol, la clé de Fa… et aussi la clé d’UT.</p><p>U.T., c’est également <em>Universal Time</em>, le temps universel, déterminé par des observations astronomiques.</p>" 
+          },
+          V: { img: "images/V_v2.png", word: "Variation", text: "On pense à la variation d’un thème musical, mais aussi aux étoiles variables, comme par exemple le couple T Coronae Borealis qui s'illumine de manière spectaculaire tous les 80 ans." },
+          W: { img: "images/W_v2.png", word: "Watt", text: "La puissance d’une enceinte se mesure en watts (énergie acoustique). On mesure aussi la puissance rayonnée par une étoile en watts (luminosité)." },
+          X: { img: "images/X_v2.png", word: "X-ray blues", text: "C’est le titre d'un blues de Ray Charles… et les rayons X, ce sont des ondes très énergétiques produites par certains astres." },
+          Y: { img: "images/Y_v2.png", word: "Young", text: "Il y a Neil Young, le musicien. Il y a aussi Thomas Young, le physicien, qui a prouvé grâce à une expérience que la lumière était une onde, au même titre que le son." },
+          Z: { 
+            img: "images/Z_v2.png", 
+            word: "Zéphyr", 
+            //text: "Le Trio à cordes Zéphyr, qui joue dans <a href='https://www.waterbabiesproduction.com/les4saisonsdelunivers' target='_blank'>les 4 saisons de l’Univers</a>, partage son nom avec un astéroïde de 2 km, considéré comme potentiellement dangereux pour la Terre." 
+            text: "Le Trio à cordes Zéphyr, qui joue dans les 4 saisons de l’Univers, partage son nom avec un astéroïde de 2 km, considéré comme potentiellement dangereux pour la Terre." 
+          }
+        }
     };
+
+
+    const contentFR = {
+      title: "Abécédaire de l’astro-musique EN",
+      intro: `
+        Pensez-vous qu’il existe des liens entre la musique et l’astronomie ?
+        La réponse est oui ! Ces deux disciplines partagent un langage commun — découvrons-le ensemble.
+        <br><br>
+        Cet abécédaire a été créé dans le cadre des 
+          <a href="https://www.waterbabiesproduction.com/les4saisonsdelunivers" target="_blank">
+        4 Saisons de l’Univers
+        </a>.
+        une série de quatre conférences-concerts mêlant récit scientifique accessible, humour et poésie,
+        images en haute définition et musique live.
+        `,
+        hint: "Cliquez sur une lettre pour explorer les liens entre musique et astronomie",
+        letters: {
+          A: { img: "images/A_v2.png", word: "Armstrong", text: "Neil Armstrong, premier homme à marcher sur la Lune, et Louis Armstrong, trompettiste de jazz." },
+          B: { img: "images/B_v2.png", word: "Big Band.g", text: "Un orchestre de jazz, mais aussi l’origine de l’Univers — on n’est pas à une lettre près. Dans les deux cas, ça déborde d’énergie !" },
+          C: { img: "images/C_v2.png", word: "Composition", text: "La composition chimique d’une étoile ou d’une planète, et la composition musicale." },
+          D: { img: "images/D_v2.png", word: "Disque", text: "Le disque que l’on écoute, et celui qui gravite autour des astres — comme les anneaux de Saturne." },
+          E: { img: "images/E_v2.png", word: "Espace", text: "Il y en a entre les astres… et il en faut entre les notes !" },
+          F: { img: "images/F_v2.png", word: "Fréquence", text: "La lumière et le son sont des ondes, toutes deux caractérisées par une fréquence." },
+          G: { img: "images/G_v2.png", word: "Gustav Holst", text: "Au début du XXᵉ siècle, il a composé une œuvre pour grand orchestre : Les Planètes." },
+          H: { img: "images/H_v2.png", word: "Hertz", text: "Une unité de mesure qui définit les fréquences, qu’elles soient sonores ou lumineuses." },
+          I: { img: "images/I_v2.png", word: "Instrument", text: "Instrument de musique ou instrument de mesure." },
+          J: { img: "images/J_v2.png", word: "John Lennon", text: "John Lennon? C'est un cratère sur Mercure, nommé officiellement en 2013 par l’Union astronomique internationale." },
+          K: { img: "images/K_v2.png", word: "Kepler", text: "Astronome (et astro-musicien ?) allemand du XVIIᵉ siècle. Il a écrit un livre dans lequel il attribue aux planètes un thème musical." },
+          L: { img: "images/L_v2.png", word: "Lyre", text: "La nébuleuse de la Lyre est une étoile en fin de vie qui expulse son enveloppe dans l’espace. La Lyre est aussi un instrument de musique." },
+          M: { img: "images/M_v2.png", word: "May, Brian", text: "Non seulement il est l'emblématique guitariste du groupe Queen, mais il a également rédigé une thèse en astrophysique : Étude des vitesses radiales dans le nuage de poussière zodiacal (traduction française)." },
+          N: { img: "images/N_v2.png", word: "Nocturne", text: "Les Nocturnes de Chopin : 21 morceaux pour piano seul. L’astronomie, elle, se pratique préférentiellement la nuit !" },
+          O: { img: "images/O_v2.png", word: "Onde", text: "Le son et la lumière sont des… ondes !" },
+          P: { img: "images/P_v2.png", word: "Pythagore", text: "Un pionnier de l’astro-musique ! L’harmonie des sphères, c’est lui. Selon cette théorie, les distances entre les planètes correspondraient à des intervalles musicaux." },
+          Q: { img: "images/Q_v2.png", word: "Quintette", text: "Le « quintette de Stephan » est un regroupement de cinq galaxies découvert par l’astronome français Édouard Stephan à la fin du XIXᵉ siècle. Un quintette, c’est aussi un ensemble de cinq musiciens." },
+          R: { img: "images/R_v2.png", word: "Rave", text: "Une rave party ? Oui ! Mais RAVE signifie aussi RAdial Velocity Experiment, un programme qui observe les étoiles de notre galaxie." },
+          S: { img: "images/S_v2.png", word: "Silence", text: "Le silence spatial, la pause musicale." },
+          T: { img: "images/T_v2.png", word: "Triangle", text: "L’instrument de musique, et aussi le Triangle d’été, formé par trois étoiles : Véga, Deneb et Altaïr." },
+          U: { 
+            img: "images/U_v2.png", 
+            word: "UT", 
+            text: "<p>Pour lire la musique, on utilise des clés : la clé de Sol, la clé de Fa… et aussi la clé d’UT.</p><p>U.T., c’est également <em>Universal Time</em>, le temps universel, déterminé par des observations astronomiques.</p>" 
+          },
+          V: { img: "images/V_v2.png", word: "Variation", text: "On pense à la variation d’un thème musical, mais aussi aux étoiles variables, comme par exemple le couple T Coronae Borealis qui s'illumine de manière spectaculaire tous les 80 ans." },
+          W: { img: "images/W_v2.png", word: "Watt", text: "La puissance d’une enceinte se mesure en watts (énergie acoustique). On mesure aussi la puissance rayonnée par une étoile en watts (luminosité)." },
+          X: { img: "images/X_v2.png", word: "X-ray blues", text: "C’est le titre d'un blues de Ray Charles… et les rayons X, ce sont des ondes très énergétiques produites par certains astres." },
+          Y: { img: "images/Y_v2.png", word: "Young", text: "Il y a Neil Young, le musicien. Il y a aussi Thomas Young, le physicien, qui a prouvé grâce à une expérience que la lumière était une onde, au même titre que le son." },
+          Z: { 
+            img: "images/Z_v2.png", 
+            word: "Zéphyr", 
+            //text: "Le Trio à cordes Zéphyr, qui joue dans <a href='https://www.waterbabiesproduction.com/les4saisonsdelunivers' target='_blank'>les 4 saisons de l’Univers</a>, partage son nom avec un astéroïde de 2 km, considéré comme potentiellement dangereux pour la Terre." 
+            text: "Le Trio à cordes Zéphyr, qui joue dans les 4 saisons de l’Univers, partage son nom avec un astéroïde de 2 km, considéré comme potentiellement dangereux pour la Terre." 
+          }
+        }
+    };
+
+    
+    let currentLang = "FR";
+    let currentContent = contentFR;
+
     
     // Au clic
     //document.getElementById("description").innerHTML = data["Z"].text;
@@ -239,34 +331,55 @@
     const alphabetDiv = document.getElementById("alphabet");
     const contentDiv = document.getElementById("content");
 
-    for (let i = 65; i <= 90; i++) {
-      const letter = String.fromCharCode(i);
-      const div = document.createElement("div");
-      div.className = "letter";
-      div.textContent = letter;
+    function buildAlphabet() {
+      alphabetDiv.innerHTML = "";
 
-      div.onclick = () => {
-        if (!data[letter]) return;
+      for (let i = 65; i <= 90; i++) {
+        const letter = String.fromCharCode(i);
+        const div = document.createElement("div");
+        div.className = "letter";
+        div.textContent = letter;
 
-        document.getElementById("icon").src = data[letter].img;
-        document.getElementById("icon").alt = data[letter].word;
-        //document.getElementById("word").textContent = `${letter} — ${data[letter].word}`;
-        document.getElementById("description").innerHTML = data[letter].text;
-        //document.getElementById("description").textContent = data[letter].text;
+        div.onclick = () => {
+          const item = currentContent.letters[letter];
+          if (!item) return;
 
-        contentDiv.classList.add("active");
+          document.getElementById("icon").src = item.img;
+          document.getElementById("icon").alt = item.word;
+          document.getElementById("description").innerHTML = item.text;
 
-        // 🔽 SCROLL AUTOMATIQUE (ICI)
-        //if (window.innerWidth < 768) { //pour que ce soit que sur mobile
-         document.getElementById("content").scrollIntoView({
-         behavior: "smooth"
-         });
-        //}
-     };
+          contentDiv.classList.add("active");
+          contentDiv.scrollIntoView({ behavior: "smooth" });
+       };
 
-      alphabetDiv.appendChild(div);
+       alphabetDiv.appendChild(div);
+     }
     }
-  </script>
+
+
+function setLanguage(lang) {
+  currentLang = lang;
+  currentContent = lang === "FR" ? contentFR : contentEN;
+
+  document.documentElement.lang = lang.toLowerCase();
+  document.getElementById("title").innerHTML = currentContent.title;
+  document.getElementById("intro").innerHTML = currentContent.intro;
+  document.getElementById("hint").innerHTML = currentContent.hint;
+
+  document.getElementById("btn-fr").classList.toggle("active", lang === "FR");
+  document.getElementById("btn-en").classList.toggle("active", lang === "EN");
+
+  contentDiv.classList.remove("active");
+  buildAlphabet();
+}
+
+document.getElementById("btn-fr").onclick = () => setLanguage("FR");
+document.getElementById("btn-en").onclick = () => setLanguage("EN");
+
+// Initial load
+setLanguage("FR");
+</script>
+    
 
   <footer id="credits">
   <p>Conception : Arthur Choplin, Guillaume Gardey de Soos | Visuels : Erica Durance</p>
