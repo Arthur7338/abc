@@ -364,8 +364,22 @@
           const item = currentContent.letters[letter];
           if (!item) return;
 
-          document.getElementById("icon").src = item.img;
-          document.getElementById("icon").alt = item.word;
+
+          const iconImg = document.getElementById("icon");
+          const iconContainer = iconImg.parentElement;
+
+          if (item.img) {
+            iconImg.src = item.img;
+            iconImg.alt = item.word || "";
+            iconContainer.style.display = "block";
+          } else {
+            iconImg.removeAttribute("src");   // ✅ empêche image cassée
+            iconImg.alt = "";                 // ✅ empêche texte gris (Safari)
+            iconContainer.style.display = "none";
+          }
+
+
+          
           
           // ✅ EN only: show the word
           const wordEl = document.getElementById("word");
