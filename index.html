@@ -181,6 +181,14 @@
 }
 
 
+#word {
+  margin-top: 0;
+  margin-bottom: 0.8rem;
+  font-size: 1.6rem;
+  font-family: 'Playfair Display', serif;
+  color: #fff;
+}
+
     
   </style>
 </head>
@@ -205,6 +213,7 @@
       <img id="icon" alt="" />
     </div>
     <div class="text">
+      <h2 id="word" style="display:none"></h2>
       <p id="description"></p>
     </div>
   </div>
@@ -345,6 +354,17 @@
 
           document.getElementById("icon").src = item.img;
           document.getElementById("icon").alt = item.word;
+          
+          // ✅ EN only: show the word
+          const wordEl = document.getElementById("word");
+          if (currentLang === "EN") {
+            wordEl.textContent = item.word;
+            wordEl.style.display = "block";
+          } else {
+            wordEl.style.display = "none";
+          }
+          
+          // description always shown
           document.getElementById("description").innerHTML = item.text;
 
           contentDiv.classList.add("active");
